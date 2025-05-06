@@ -1,36 +1,35 @@
 @echo off
 cls
 
-echo =============================================
-echo        Building and Running Coco/R Project...
-echo =============================================
+echo ==========================================
+echo    Building and Running Coco/R Project...
+echo ==========================================
 
-cd src
+REM Step 1: Clean old generated parser files
+echo [*] Cleaning old files...
+del /Q src\Scanner.java src\Parser.java
 
-REM Step 1: Delete old generated parser files
-del /Q Scanner.java Parser.java
-
-REM Step 2: Generate Scanner.java and Parser.java
+REM Step 2: Generate Scanner and Parser using Coco/R
 echo [*] Running Coco/R on GrammarFile.atg...
-java -jar ..\lib\Coco.jar ..\GrammarFile.atg || goto error
+java -jar .\lib\Coco.jar -o src GrammarFile.atg || goto error
 
-REM Step 3: Compile all Java files (including generated ones)
-echo [*] Compiling Java sources...
-javac *.java || goto error
+REM Step 3: Compile Java source files
+echo [*] Compiling Java files...
+javac src\FrontEndLauncher.java src\Parser.java src\Scanner.java || goto error
 
 REM Step 4: Run the program
 echo [*] Running FrontEndLauncher...
-java FrontEndLauncher || goto error
+java -cp src FrontEndLauncher || goto error
 
-echo =============================================
+echo ==========================================
 echo         Build and Run Complete!
-echo =============================================
+echo ==========================================
 pause
 exit
 
 :error
-echo =============================================
+echo ==========================================
 echo         An error has occurred!
-echo =============================================
+echo ==========================================
 pause
 exit
