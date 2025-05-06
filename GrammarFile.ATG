@@ -1,0 +1,17 @@
+COMPILER GrammarFile
+
+CHARACTERS
+  letter = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".
+  digit  = "0123456789".
+  nl     = CHR(10).
+
+TOKENS
+
+IGNORE
+
+PRODUCTIONS
+
+  Prog
+    = Def .
+
+END GrammarFile.
